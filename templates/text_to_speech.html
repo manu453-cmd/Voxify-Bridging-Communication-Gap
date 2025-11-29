@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Text to Speech - Voxify{% endblock %}
+
+{% block content %}
+{% if session.get("user_id") %}
+<main class="text-to-speech-page">
+    <div class="text-to-speech-container">
+        <h1>Text to Speech</h1>
+        <p>Convert written text into natural-sounding speech.</p>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- TTS Conversion Form -->
+        <form action="{{ url_for('text_to_speech') }}" method="POST">
+            <textarea name="tts-input" id="tts-input" placeholder="Enter text to convert..." required></textarea>
+            <button type="submit" class="convert-btn">Convert</button>
+        </form>
+
+        <!-- Show download button if available -->
+        {% if session.get("tts_file") %}
+        <a href="{{ url_for('download_tts', filename=session['tts_file']) }}" class="btn-download">Download MP3</a>
+        {% endif %}
+
+        <a href="{{ url_for('dashboard') }}" class="btn-back">Back to Dashboard</a>
+    </div>
+</main>
+{% else %}
+<p class="login-message">You need to <a href="{{ url_for('login') }}">log in</a> first.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Speech to Text - Voxify{% endblock %}
+
+{% block content %}
+    {% if session.get("user_id") %}
+    <main class="speech-to-text-page">
+        <div class="speech-to-text-container">
+            <h1>Speech to Text</h1>
+            <p>Convert spoken words into written text.</p>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="conversion-box">
+                <!-- Recording Section -->
+                <button id="start-recording" class="record-btn">🎤 Start Recording</button>
+                <button id="stop-recording" class="stop-btn" disabled>⏹ Stop Recording</button>
+                
+                <form action="{{ url_for('speech_to_text') }}" method="POST" enctype="multipart/form-data">
+                    <textarea id="text-output" name="converted_text" placeholder="Converted text will appear here..." readonly></textarea>
+                    
+                    <!-- File Upload Option -->
+                    <input type="file" name="audio_file" accept="audio/*">
+                    <button type="submit" class="convert-btn">Upload & Convert</button>
+                </form>
+            </div>
+
+            <!-- Show Download Button if Text Exists -->
+            {% if session.get("stt_text") %}
+            <div class="download-section">
+                <p class="success-message">Conversion successful! Download your text file.</p>
+                <a href="{{ url_for('download_stt') }}" class="btn-download">Download TXT</a>
+            </div>
+            {% endif %}
+
+            <a href="{{ url_for('dashboard') }}" class="btn-back">Back to Dashboard</a>
+        </div>
+    </main>
+
+    <script>
+        let recognition;
+        const startBtn = document.getElementById("start-recording");
+        const stopBtn = document.getElementById("stop-recording");
+        const textOutput = document.getElementById("text-output");
+
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            };
+
+            recognition.onresult = function(event) {
+                let transcript = "";
+                for (let i = 0; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                textOutput.value = transcript;
+            };
+
+            recognition.onend = function() {
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            };
+
+            startBtn.addEventListener("click", function() {
+                recognition.start();
+            });
+
+            stopBtn.addEventListener("click", function() {
+                recognition.stop();
+            });
+        } else {
+            alert("Speech recognition not supported in this browser.");
+        }
+    </script>
+    {% else %}
+    <p class="login-message">You need to <a href="{{ url_for('login') }}">log in</a> first.</p>
+    {% endif %}
+{% endblock %}

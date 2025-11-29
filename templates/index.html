@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Voxify{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span>Transform Communication</span>
+                <span>Break Down Barriers</span>
+            </h1>
+            <p>
+                Seamlessly convert between Text, Speech, and Braille. Experience the future of inclusive communication with our all-in-one accessibility platform.
+            </p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Text & Speech</h3>
+                <p>Convert text to speech and speech to text with high accuracy and natural-sounding voices.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Braille Support</h3>
+                <p>Seamlessly translate between Braille, text, and speech for comprehensive accessibility.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Real-time Processing</h3>
+                <p>Experience instant conversions with our powerful real-time processing engine.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

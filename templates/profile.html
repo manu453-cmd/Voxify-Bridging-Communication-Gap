@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Voxify{% endblock %}
+
+{% block content %}
+    {% if session.get("user_id") %}
+    <main class="profile-page">
+        <div class="profile-container">
+            <h1>Edit Profile</h1>
+            <form action="{{ url_for('update_profile') }}" method="POST" class="profile-form">
+                <input type="text" name="username" value="{{ session['username'] }}" required>
+                <div class="profile-buttons">
+                    <button type="submit" class="btn-update">Update</button>
+                    <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    {% else %}
+    <p>You need to <a href="{{ url_for('signup') }}">log in</a> first.</p>
+    {% endif %}
+{% endblock %}

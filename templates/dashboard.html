@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 text-white">
+    <h2 class="text-center mb-4">Dashboard</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span>Transform Communication</span>
+                <span>Break Down Barriers</span>
+            </h1>
+            <p>
+                Seamlessly convert between Text, Speech, and Braille. Experience the future of inclusive communication with our all-in-one accessibility platform.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Get Started</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Text & Speech</h3>
+                <p>Convert text to speech and speech to text with high accuracy and natural-sounding voices.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Braille Support</h3>
+                <p>Seamlessly translate between Braille, text, and speech for comprehensive accessibility.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Real-time Processing</h3>
+                <p>Experience instant conversions with our powerful real-time processing engine.</p>
+            </div>
+        </div>
+    </section> -->
+    <div class="con-bx-container">
+        <div class="con-bx-item">
+            <a href="{{ url_for('text_to_speech') }}" class="con-bx">Text to Speech</a>
+            <p class="con-bx-desc">Convert written text into natural-sounding speech.</p>
+        </div>
+    
+        <div class="con-bx-item">
+            <a href="{{ url_for('speech_to_text') }}" class="con-bx">Speech to Text</a>
+            <p class="con-bx-desc">Transcribe spoken words into readable text.</p>
+        </div>
+    
+        <div class="con-bx-item">
+            <a href="{{ url_for('text_to_braille') }}" class="con-bx">Text to Braille</a>
+            <p class="con-bx-desc">Translate written text into Braille format.</p>
+        </div>
+    
+        <div class="con-bx-item">
+            <a href="{{ url_for('speech_to_braille') }}" class="con-bx">Speech to Braille</a>
+            <p class="con-bx-desc">Convert spoken words into Braille text.</p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <!-- Profile Section
+    <div class="profile-container">
+        <h2>Edit Profile</h2>
+        <label>Full Name</label>
+        <input type="text">
+    
+        <label>Email Address</label>
+        <input type="email" >
+    
+        <div class="profile-buttons">
+            <button class="save-btn">SAVE</button>
+            <button class="cancel-btn">CANCEL</button>
+        </div>
+    </div>
+     -->
+    
+</div>
+{% endblock %}

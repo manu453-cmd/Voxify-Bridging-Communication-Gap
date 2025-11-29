@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Text to Braille - Voxify{% endblock %}
+
+{% block content %}
+    {% if session.get("user_id") %}
+    <main class="text-to-braille-page">
+        <div class="text-to-braille-container">
+            <h1>Text to Braille</h1>
+            <p>Convert text into Braille patterns.</p>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- ✅ Form for Text-to-Braille Conversion -->
+            <form action="{{ url_for('text_to_braille') }}" method="POST">
+                <textarea name="braille-input" id="braille-input" placeholder="Enter text to convert..." required></textarea>
+                <button type="submit" class="convert-btn">Convert</button>
+            </form>
+
+            <!-- ✅ Download Button if Available -->
+            {% if session.get("braille_file") %}
+                <a href="{{ url_for('download_braille') }}" class="btn-download">Download Braille TXT</a>
+            {% endif %}
+
+            <a href="{{ url_for('dashboard') }}" class="btn-back">Back to Dashboard</a>
+        </div>
+    </main>
+    {% else %}
+    <p class="login-message">You need to <a href="{{ url_for('signup') }}">log in</a> first.</p>
+    {% endif %}
+{% endblock %}
